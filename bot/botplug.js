@@ -97,8 +97,6 @@ var blockedSongs = [
 "willyrex"
 "vegetta"
 "LA CANCIÓN DE WILLYREX (The Güilyreh Song)"
-
-
 ];
 
 // Keywords of blocked artist.
