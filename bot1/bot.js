@@ -48,7 +48,7 @@ toSave = {};
 toSave.settings = Funbot.settings;
 toSave.moderators = Funbot.moderators;
 
-Funbot.misc.version = "3.0.12";
+Funbot.misc.version = "1.0.2";
 Funbot.misc.ready = true;
 var songBoundary = 60 * 10;
 var announcementTick = 60 * 10;
@@ -604,7 +604,7 @@ if (window.location.hostname === "plug.dj") {
         });
     }, 3000);
 
-    API.sendChat('Bot version ' + Funbot.misc.version + ' Activated!');
+    API.sendChat('Bot version ' + Funbot.misc.version + ' Activado!');
 } else {
     alert("This bot can only function at http://plug.dj/community");
 };
