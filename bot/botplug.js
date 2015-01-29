@@ -94,7 +94,6 @@ var announcements =
 var blockedSongs = [
 "10 hour",
 "Rap ratix"
-"ratix"
 "willyrex"
 "vegetta"
 "LA CANCIÓN DE WILLYREX (The Güilyreh Song)"
