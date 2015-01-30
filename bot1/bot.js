@@ -224,7 +224,7 @@ if (window.location.hostname === "plug.dj") {
         var songLenRaw = $("#time-remaining-value").text();
         var songLenParts = songLenRaw.split(":");
         var songLen = (parseInt(songLenParts[0].substring(1)) * 60) + parseInt(songLenParts[1]);
-        if (songLen >= songBoundary) {
+        if (API.getTimeRemaining() >= songBoundary) {
             window.setTimeout(skipLongSong, 1000 * songBoundary);
         }
     }
