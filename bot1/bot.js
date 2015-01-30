@@ -48,7 +48,7 @@ toSave = {};
 toSave.settings = Funbot.settings;
 toSave.moderators = Funbot.moderators;
 
-Funbot.misc.version = "1.1.0";
+Funbot.misc.version = "1.1.1";
 Funbot.misc.ready = true;
 var announcementTick = 60 * 10;
 var lastAnnouncement = 0;
