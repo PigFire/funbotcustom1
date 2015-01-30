@@ -88,7 +88,7 @@ PlugMod = ["API.ROLE.ADMIN", "API.ROLE.AMBASSADOR", "API.ROLE.HOST", "API.ROLE.C
 // Random announcements.
 var announcements =[
 "olimpocraft.me es nuestra ip!",
-"Bienvenido al plug oficial de Olimpocraft"
+"Bienvenido al plug oficial de Olimpocraft",
 "www.olimpocraft.com"
 
 ];
