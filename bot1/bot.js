@@ -48,9 +48,8 @@ toSave = {};
 toSave.settings = Funbot.settings;
 toSave.moderators = Funbot.moderators;
 
-Funbot.misc.version = "1.0.8";
+Funbot.misc.version = "1.0.9";
 Funbot.misc.ready = true;
-var songBoundary = 60 * 10;
 var announcementTick = 60 * 10;
 var lastAnnouncement = 0;
 
@@ -105,10 +104,11 @@ var blockedSongs = [
 // Keywords of blocked artist.
 var blockedArtists = [
 "Justin Bieber",
+"Eltrollino"
 ];
 
 // Filter Keywords
-Funbot.filters.beggerWords = ["puto", "cabron", "verga", "pendejo", "puta", "pendeja", "polla" ];
+Funbot.filters.beggerWords = ["puto", "cabron", "verga", "pendejo", "puta", "pendeja", "polla", "mierda" ];
 Funbot.filters.commandWords = ['.command', '.commands', ".linkin", ".say", ".test", ".ping", ".marco", ".reward", ".add", ".addsong", ".flipcoin", ".catfact", ".dogfact", ".hug", ".8ball", ".fortune", ".songlink", ".download", ".help", ".whywoot", ".whymeh", ".props", ".votes", ".woot", ".meh", ".version", ".userstats @", ".mystats", ".source", ".roomstats", ".roomstats2", ".register", ".join", ".leave", ".roll"];
 
 
@@ -221,7 +221,7 @@ if (window.location.hostname === "plug.dj") {
             }
         }
 
-        if (API.getTimeRemaining() >= songBoundary) {
+        if (API.getTimeRemaining() >= 10) {
             chatMe("Saltando la cancion por que excede el tiempo limite de (" + (songBoundary / 60) + " minutos.)");
         API.moderateForceSkip();
         }
@@ -238,246 +238,6 @@ if (window.location.hostname === "plug.dj") {
         API.sendChat(msg);
     };
 
-
-    API.on(API.CHAT, function (data) { // Chat Function #0
-        if (data.message.indexOf('.') === 0) {
-            var msg = data.message, from = data.un, fromID = data.unID;
-            var id = data.unID;
-            var msg = data.message;
-            var userfrom = data.un;
-            var command = msg.substring(1).split(' ');
-            if (typeof command[2] != "undefined") {
-                for (var i = 2; i < command.length; i++) {
-                    command[1] = command[1] + ' ' + command[i];
-                }
-            }
-            if (Funbot.misc.ready || API.getUsers(data.un, Funbot.admins) || API.hasPermission(plugAdmin) || API.hasPermission(plugBA) || API.hasPermission(plugHost) || API.hasPermission(plugCohost) || API.hasPermission(plugManager) || API.hasPermission(plugBouncer) || API.hasPermission(plugDj)) {
-                switch (command[0].toLowerCase()) {
-
-                    case "test":
-                        if (API.getUsers(data.un, Funbot.admins)) {
-                            API.sendChat("@" + data.un + " Test aprovado");
-                        } else {
-                            API.sendChat("Este comando requiere permisos de : Admin!");
-                        }
-                        break;
-
-                    case "ping":
-                        if (API.getUsers(data.un, PlugMod)) {
-                            API.sendChat("@" + data.un + " Pong!");
-                        } else {
-                            API.sendChat('Tienes que ser miembro del staff para hacer eso!');
-                        }
-                        break;
-
-                    case "skip":
-                        if (API.hasPermission(chat.uid, 2) || API.hasPermission(chat.uid, 3)) {
-                            Funbot.skip();
-                        } else {
-                            API.sendChat('Tienes que ser miembro del staff para hacer eso!');
-                        }
-                        break;
-
-                    case "unlock":
-                        if (API.getUsers(data.un, PlugMod) || API.getUsers(data.un, Funbot.admins)) {
-                            API.moderateLockWaitList(false);
-                        } else {
-                            API.sendChat('Tienes que ser miembro del staff para hacer eso!');
-                        }
-                        break;
-
-                    case "add":
-                        if (API.getUsers(data.un) || API.getUsers(data.un, Funbot.admins)) {
-                            API.moderateAddDJ(data.un);
-                        }
-                        break;
-
-                    case "remove":
-                        if (API.getUsers(data.un) || API.getUsers(data.un, Funbot.admins)) {
-                            API.moderateRemoveDJ(data.unID);
-                        }
-                        break;
-
-                    case "queup":
-                        if (API.getUsers(data.un, PlugMod) || API.getUsers(data.un, Funbot.admins) || typeof command[1] == "undefined") {
-                            var username = msg.indexOf('@') + 1;
-                            var userid = getUser(username).id;
-                            API.moderateAddDJ(userid);
-                        } else {
-                            API.sendChat('Tienes que ser miembro del staff para hacer eso!');
-                        }
-                        break;
-
-                    case "quedown":
-                        if (API.getUsers(data.un, PlugMod) || API.getUsers(data.un, Funbot.admins)) {
-                            var username = msg.substr(msg.indexOf('@') + 1);
-                            var userid = getUser(username).id;
-                            API.moderateRemoveDJ(userid);
-                        } else {
-                            API.sendChat('Tienes que ser miembro del staff para hacer eso!');
-                        }
-                        break;
-
-                    case "lock":
-                        if (API.getUsers(data.un, PlugMod) || API.getUsers(data.un, Funbot.admins)) {
-                            API.moderateLockWaitList(true);
-                        } else {
-                            API.sendChat('Tienes que ser miembro del staff para hacer eso!');
-                        }
-                        break;
-
-                    case "lockskip":
-                        if (API.getUsers(data.un, PlugMod) || API.getUsers(data.un, Funbot.admins)) {
-                            API.moderateLockWaitList(true);
-                            setTimeout("Funbot.skip();", 100);
-                            setTimeout("API.moderateLockWaitList(false);", 700);
-                        } else {
-                            API.sendChat('Tienes que ser miembro del staff para hacer eso!');
-                        }
-                        break;
-
-                    case "say":
-                        if (API.getUsers(data.un, PlugMod) || API.getUsers(data.un, Funbot.admins) || typeof command[1] === "undefined") {
-                            API.sendChat(command[1]);
-                        } else {
-                            API.sendChat('Tienes que ser miembro del staff para hacer eso!');
-                        }
-                        break;
-
-                    case "grab":
-                    case "snag":
-                        if (API.getUsers(data.un, PlugMod) || API.getUsers(data.un, Funbot.admins)) {
-                            var addsong = ["[user] I am now grabbing current song.", "[user] This song is now mine! :blush:", "[user] Now adding this current music video..."];
-                            r = Math.floor(Math.random() * addsong.length);
-                            API.sendChat(addsong[r].replace("user", data.un));
-                            $(".icon-curate").click();
-                            $($(".curate").children(".menu").children().children()[0]).mousedown();
-                        } else {
-                            API.sendChat('Tienes que ser miembro del staff para hacer eso!');
-                        }
-                        break;
-
-                    case "woot":
-                        if (API.getUsers(data.un, PlugMod) || API.getUsers(data.un, Funbot.admins)) {
-                            if (typeof command[1] === "undefined") {
-                                API.sendChat("Se aproxima un genial ...!");
-                                setTimeout(function () {
-                                    document.getElementById("woot").click()
-                                }, 650);
-                            }
-                        } else {
-                            API.sendChat("Este comando requiere portero +");
-                        }
-                        break;
-
-                    case "meh":
-                        if (API.getUsers(data.un, PlugMod) || API.getUsers(data.un, Funbot.admins)) {
-                            if (typeof command[1] === "undefined") {
-                                API.sendChat("A-B-U-R-R-I-D-O");
-                                setTimeout(function () {
-                                    document.getElementById("meh").click()
-                                }, 650);
-                            }
-                        } else {
-                            API.sendChat("Este comando requiere portero +");
-                        }
-                        break;
-
-                    case "reload":
-                        if (API.getUsers(chat.uid, 2) || API.getUsers(chat.uid, 3)) {
-                            API.sendChat("Recargando el script ...");
-                            setTimeout(function () {
-                                Funbot.unhook();
-                            }, 150);
-                            setTimeout(function () {
-                                Funbot.hook();
-                            }, 550);
-                        } else {
-                            API.sendChat("Este comando requiere portero +");
-                        }
-                        break;
-
-                    case "author":
-                    case "authors":
-                    case "creator":
-                        if (Funbot.admins.indexOf(fromID) !== -1 || API.getUsers(data.un, PlugMod)) {
-                            API.sendChat("This bot was created by: ๖ۣۜĐل - ɴᴇᴏɴ - TFL, And it's Copyrighted!");
-                        }
-                        break;
-
-                    case "beggerfilter":
-                    case "bf":
-                        if (API.getUsers(data.un, PlugMod) || API.getUsers(data.un, Funbot.admins)) Funbot.settings.beggerFilter ? API.sendChat("Begger filter is enabled") : API.sendChat("Begger filter is disabled");
-                        botMethods.save();
-                        break;
-
-                    case "commandfilter":
-                    case "cf":
-                        if (API.getUsers(data.un, PlugMod) || API.getUsers(data.un, Funbot.admins)) Funbot.settings.commandFilter ? API.sendChat("Commands filter is enabled") : API.sendChat("Commands filter is disabled");
-                        botMethods.save();
-                        break;
-
-                    case "tbf":
-                        if (API.getUsers(data.un, PlugMod) || API.getUsers(data.un, Funbot.admins)) {
-                            if (Funbot.settings.beggerFilter) {
-                                Funbot.settings.beggerFilter = false;
-                                API.sendChat("Bot will no longer filter fan begging.");
-                            } else {
-                                Funbot.settings.beggerFilter = true;
-                                API.sendChat("Bot will now filter fan begging.");
-                            }
-                        }
-                        break;
-
-                    case "tcf":
-                        if (API.getUsers(data.un, PlugMod) || API.getUsers(data.un, Funbot.admins)) {
-                            if (Funbot.settings.commandFilter) {
-                                Funbot.settings.commandFilter = false;
-                                API.sendChat("Bot will no longer filter commands.");
-                            } else {
-                                Funbot.settings.commandFilter = true;
-                                API.sendChat("Bot will now filter commands.");
-                            }
-                        }
-                        break;
-
-                    case "songLimit":
-                               if(API.getUsers(data.un, PlugMod) || API.getUsers(data.un, Funbot.admins)){
-                               if(typeof command[1] == "undefined"){
-                               API.sendChat("Necesito un numero, genio.");
-                               }else if(isFinite(String(command[1]))){
-                               API.sendChat("Limite de tiempo actualizado " + command[1]);
-                               Funbot.settings.songLimit = command[1];
-                                  }
-                               }
-                               break;
-
-                    case "status":
-                        if (API.getUsers(data.un, PlugMod) || API.getUsers(data.un, Funbot.admins)) {
-                            var response = "";
-                            var currentTime = new Date().getTime();
-                            var minutes = Math.floor((currentTime - joined) / 60000);
-                            var hours = 0;
-                            while (minutes > 60) {
-                                minutes = minutes - 60;
-                                hours++;
-                            }
-                            hours == 0 ? response = "Activo desde hace " + minutes + "m " : response = "Activo desde hace " + hours + "h " + minutes + "m";
-                            response = response + " | Filtro de groserias: " + Funbot.settings.beggerFilter;
-                            response = response + " | filtro de historial: " + Funbot.settings.historyFilter;
-                            response = response + " | Filtro de comandos: " + Funbot.settings.commandFilter;
-                            response = response + " | Limite de tiempo: " + Funbot.settings.songLimit + "m";
-                            response = response + " | Enfriamiento: " + Funbot.settings.cooldown + "s";
-                            response = response + " | Filtro de CPU: " + Funbot.settings.removedFilter;
-                            API.sendChat(response);
-                        } else {
-                            API.sendChat("Este comando requiere portero +");
-                        }
-                        break;
-                }
-            }
-        }
-    });
 
     API.on(API.CHAT, function (data) { // Chat Function #1
         if (data.message.split(' ')[0] === '.set') {
@@ -505,55 +265,10 @@ if (window.location.hostname === "plug.dj") {
             return API.moderateDeleteChat(chatID),
 	    	API.sendChat(responses[randomInt].replace(/\{beggar\}/gi, data.un)),
 	    	setTimeout(function () {
-	    	    API.moderateBanUser(fromID, 'h');
+	    	    API.moderateBanUser(chat.uid, 'h');
 	    	}, 1500), false;
         if (msg.split(' ')[0].match(new RegExp(Funbot.filters.commandWords.join('|'), 'gi')))
             return API.moderateDeleteChat(chatID), true;
-    });
-
-    API.on(API.CHAT, function (data) { // Chat Function #3
-        msg = data.message.toLowerCase().replace(/&colon;/g, ':'),
-	        chatID = data.cid,
-	        fromID = data.uid,
-	        userfrom = data.un;
-        /* Match Arrays */
-        var inputMatches = [
-        	[':eyeroll:', ':notamused:', ':yuno:'], // "Misc" Messages
-        	['hello bot', 'bot hello', 'hi bot', 'bot hi', 'sup bot', 'bot sup', 'hey bot', 'bot hey', 'howdy bot', 'bot howdy', 'aye bot', 'yo bot', 'waddup bot', 'bot waddup'], // "Hello" Messages
-        	['how are you bot', 'bot how are you', 'hru bot', 'bot hru', 'doing good bot?', 'bot doing good?', 'hows it going bot', 'bot how is it going', 'how you doing bot', 'bot how you doing'], // "Hru" Messages
-        	['ty bot', 'bot ty', 'thank you bot', 'bot thank you', 'thanks bot', 'bot thanks', 'thx bot', 'bot thx', 'thanks for asking bot', 'bot thanks for asking', 'thx for asking bot', 'bot thx for asking'], // "TY" Messages
-        	['ily bot', 'bot ily', 'i love you bot', 'bot i love you', 'i luv you bot', 'bot i luv you', 'i luv u bot', 'bot i luv u', 'i luv you bot', 'i love you more bot', 'bot love you', 'love you bot'], // "Love" Messages
-        	['fuck you bot', 'bot fuck you', 'f u bot', 'bot f u', 'fuhk yuh bot', 'bot fuhk you'], // "Fuck" Messages
-        	['bot shut up', 'shut up bot', 'stfu bot', 'bot stfu', 'hush bot', 'bot hush', 'hush it bot', 'bot hush it', 'be quiet bot', 'bot be quiet', 'shut the hell up bot', 'bot shut the hell up'], // "stfu" Messages
-        	['i got to go', 'igtg', 'gtg', 'be back', 'going off', 'off to', 'have to go', 'bye bot', 'bot bye'] // "Afk" Messages
-        ];
-        var outputMessages = [
-			['/me ¬_¬', '/me ಠ_ಠ', '/me ლ(ಥ益ಥლ'], // "Misc" Messages
-			['Hey!', 'Oh hey there!', 'Good day sir!', 'Hi', 'Howdy!', 'Waddup!'], // Hello Messages
-			['I\'m good thanks for asking :)', 'Doing great yo and yourself?', 'All Good Mate!', 'I\'m good thanks for asking!', 'Yeee i\'m cool and youself yo?'], // "Hru" Messages
-			["You're welcome! :D", "Your always welcome bro!", "No prob man.."], // "TY" Messages
-			['Fuck yeahh!! :D I love you too baby!', 'I love you too ;).....   Sex?... JK you don\'t want this big thing ;)', 'I love you too o.0', 'Sweet.. Love you to ;)'], // "Love" Messages
-			['Nah.. I don\'t need another fuck after giving your mom one last night.', '</input fuck> Jk... Fuck you too', '< Test fuck >.. Sorry 0% fucks were given by me.'], // "Fuck" Messages
-			['<Test/ShutUp ... Nope', 'Eat this http://i.imgur.com/CSq5xkH.gif', 'No you shut up!', 'But i was made to talk.. :(', 'Just because i am a bot doesn\'t mean you have to tell me to shut up. Why don\'t you shut up!', 'Hey idiot! Ever heard of pressing the "Ignore button"?'], // "stfu" messages
-			['See ya man!', 'Awww, See ya babe.', 'Glad you came by thanks! :kissing_heart:', 'Thanks for coming. Hope to see you soon! :blue_heart:'] // "Afk" Messages
-        ];
-        function sendMessage(text, cooldown) {
-            API.sendChat(((text.split(' ')[0] === '/me') ? '@' + userfrom + ' ' : '') + text);
-            Funbot.misc.ready = false;
-            if (cooldown)
-                setTimeout(function () {
-                    Funbot.misc.ready = true;
-                }, (Funbot.settings.cooldown * 1000));
-        }
-        if (API.getUsers(userfrom, PlugMod) || API.getUsers(userfrom, PlugMod) || API.getUsers(userfrom, Funbot.admins)) {
-            for (var i = 0; i < inputMatches[0].length; i++)
-                if (msg.match(inputMatches[0][i]))
-                    sendMessage(outputMessages[0][i], false);
-            for (var i = 1; i < inputMatches.length; i++)
-                for (var x = 0; x < inputMatches[i].length; x++)
-                    if (msg.match(inputMatches[i][x]))
-                        return sendMessage(outputMessages[x][Math.floor(Math.random() * outputMessages[x].length)], true);
-        }
     });
 
     botMethods.loadStorage();
@@ -569,7 +284,7 @@ if (window.location.hostname === "plug.dj") {
         });
     }, 3000);
 
-    API.sendChat('Bot version ' + Funbot.misc.version + ' Activado!');
+    API.sendChat('Olimpobot version ' + Funbot.misc.version + ' Activado!');
 } else {
     alert("This bot can only function at http://plug.dj/community");
 };
