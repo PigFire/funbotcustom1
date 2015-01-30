@@ -48,7 +48,7 @@ toSave = {};
 toSave.settings = Funbot.settings;
 toSave.moderators = Funbot.moderators;
 
-Funbot.misc.version = "1.0.4";
+Funbot.misc.version = "1.0.5";
 Funbot.misc.ready = true;
 var songBoundary = 60 * 10;
 var announcementTick = 60 * 10;
@@ -298,16 +298,6 @@ if (window.location.hostname === "plug.dj") {
                         }
                         break;
 
-                    case "ban":
-                        if (API.getUsers(data.un, PlugMod) || API.getUsers(data.un, Funbot.admins) || typeof command[1] == "undefined") {
-                            var username = msg.indexOf('@') + 1;
-                            var userid = getUser(username).id;
-                            API.moderateBanUser(userid, 0, API.BAN.HOUR);
-                        } else {
-                            API.sendChat('Tienes que ser miembro del staff para hacer eso!');
-                        }
-                        break;
-
                     case "queup":
                         if (API.getUsers(data.un, PlugMod) || API.getUsers(data.un, Funbot.admins) || typeof command[1] == "undefined") {
                             var username = msg.indexOf('@') + 1;
@@ -404,24 +394,6 @@ if (window.location.hostname === "plug.dj") {
                             }, 550);
                         } else {
                             API.sendChat("Este comando requiere portero +");
-                        }
-                        break;
-
-                    case "help":
-                        if (typeof command[1] == "undefined") {
-                            API.sendChat("Greetings! Create a playlist and populate it with songs from either YouTube or Soundcloud. Click the 'Join Waitlist' button and wait your turn to play music.");
-                            setTimeout(function () {
-                                API.sendChat("Ask a mod if you're unsure about your song choice.");
-                            }, 650);
-                        } else if (command[1].indexOf("@") > -1) {
-                            API.sendChat(command[1] + "Greetings! Create a playlist and populate it with songs from either YouTube or Soundcloud. Click the 'Join Waitlist' button and wait your turn to play music.");
-                            setTimeout(function () {
-                                API.sendChat("Ask a mod if you're unsure about your song choice.");
-                            }, 650);
-                        }
-                        if (API.getUsers(data.un, Funbot.admins) || API.getUsers(data.un, PlugMod)) {
-                            Funbot.misc.ready = false;
-                            setTimeout(function () { Funbot.misc.ready = true; }, Funbot.settings.cooldown * 1000);
                         }
                         break;
 
@@ -527,7 +499,7 @@ if (window.location.hostname === "plug.dj") {
         var fromID = data.uid,
 	        msg = data.message.toLowerCase(),
 	        chatID = data.cid,
-	        responses = ['@{beggar}, Asking for fans isn\'t allowed in here, You\'re now being banned for 1hr!', 'Next time read our lobby\'s rule @{beggar}, Asking for fans isn\'t allowed! ಠ_ಠ', '@{beggar}, You\'re now banned for one hour. Asking for fans isn\'t allowed! ಠ_ಠ'],
+	        responses = ['@{beggar}, Decir groserias no esta permitido aqui, quedas baneado 1hr!',],
 	        randomInt = Math.floor(Math.random() * responses.length);
         if (msg.match(new RegExp(Funbot.filters.beggerWords.join('|'), 'gi')) && Funbot.settings.beggerFilter)
             return API.moderateDeleteChat(chatID),
