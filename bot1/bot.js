@@ -48,7 +48,7 @@ toSave = {};
 toSave.settings = Funbot.settings;
 toSave.moderators = Funbot.moderators;
 
-Funbot.misc.version = "1.1.1";
+Funbot.misc.version = "1.1.2";
 Funbot.misc.ready = true;
 var announcementTick = 60 * 10;
 var lastAnnouncement = 0;
@@ -89,7 +89,10 @@ PlugMod = ["API.ROLE.ADMIN", "API.ROLE.AMBASSADOR", "API.ROLE.HOST", "API.ROLE.C
 var announcements =[
 "olimpocraft.me es nuestra ip!",
 "Bienvenido al plug oficial de Olimpocraft",
-"www.olimpocraft.com"
+"www.olimpocraft.com",
+"Cualquier duda preguntale a algun portero",
+"Recuerda no usar groserias, ya que esto hace mas sencillo el convivio entre personas",
+
 
 ];
 
