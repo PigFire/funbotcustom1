@@ -48,7 +48,7 @@ toSave = {};
 toSave.settings = Funbot.settings;
 toSave.moderators = Funbot.moderators;
 
-Funbot.misc.version = "1.0.6";
+Funbot.misc.version = "1.0.7";
 Funbot.misc.ready = true;
 var songBoundary = 60 * 10;
 var announcementTick = 60 * 10;
@@ -271,7 +271,7 @@ if (window.location.hostname === "plug.dj") {
                         break;
 
                     case "skip":
-                        if (API.getUsers(chat.uid, 2) || API.getUsers(chat.uid, 3)) {
+                        if (API.hasPermission(chat.uid, 2) || API.hasPermission(chat.uid, 3)) {
                             Funbot.skip();
                         } else {
                             API.sendChat('Tienes que ser miembro del staff para hacer eso!');
