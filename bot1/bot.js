@@ -48,7 +48,7 @@ toSave = {};
 toSave.settings = Funbot.settings;
 toSave.moderators = Funbot.moderators;
 
-Funbot.misc.version = "1.0.2";
+Funbot.misc.version = "1.0.4";
 Funbot.misc.ready = true;
 var songBoundary = 60 * 10;
 var announcementTick = 60 * 10;
@@ -221,17 +221,10 @@ if (window.location.hostname === "plug.dj") {
             }
         }
 
-        var songLenRaw = $("#time-remaining-value").text();
-        var songLenParts = songLenRaw.split(":");
-        var songLen = (parseInt(songLenParts[0].substring(1)) * 60) + parseInt(songLenParts[1]);
         if (API.getTimeRemaining() >= songBoundary) {
-            window.setTimeout(skipLongSong, 1000 * songBoundary);
-        }
-    }
-
-    function skipLongSong() {
-        chatMe("Saltando la cancion por que excede el tiempo limite de (" + (songBoundary / 60) + " minutos.)");
+            chatMe("Saltando la cancion por que excede el tiempo limite de (" + (songBoundary / 60) + " minutos.)");
         API.moderateForceSkip();
+        }
     }
 
     function sendAnnouncement() {
