@@ -48,7 +48,7 @@ toSave = {};
 toSave.settings = Funbot.settings;
 toSave.moderators = Funbot.moderators;
 
-Funbot.misc.version = "1.0.9";
+Funbot.misc.version = "1.1.0";
 Funbot.misc.ready = true;
 var announcementTick = 60 * 10;
 var lastAnnouncement = 0;
@@ -86,8 +86,12 @@ plugDj = "API.ROLE.DJ";
 PlugMod = ["API.ROLE.ADMIN", "API.ROLE.AMBASSADOR", "API.ROLE.HOST", "API.ROLE.COHOST", "API.ROLE.MANAGER", "API.ROLE.BOUNCER"];
 
 // Random announcements.
-var announcements =
-[""];
+var announcements =[
+"olimpocraft.me es nuestra ip!",
+"Bienvenido al plug oficial de Olimpocraft"
+"www.olimpocraft.com"
+
+];
 
 // Keywords of blocked songs
 var blockedSongs = [
@@ -224,6 +228,7 @@ if (window.location.hostname === "plug.dj") {
         if (API.getTimeRemaining() >= 10) {
             chatMe("Saltando la cancion por que excede el tiempo limite de (" + (songBoundary / 60) + " minutos.)");
         API.moderateForceSkip();
+        return;
         }
     }
 
