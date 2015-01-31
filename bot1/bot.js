@@ -1,4 +1,4 @@
-                                           ====== FUN BOT SCRIPT  ======
+                                         //  ====== FUN BOT SCRIPT  ======
 Array.prototype.Shift = function () { return Array.prototype.shift.call(this), this; };
 
 var Funbot = {};
