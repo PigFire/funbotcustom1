@@ -97,6 +97,7 @@ if (window.location.hostname === "plug.dj") {
     API.on(API.ADVANCE, listener);
     API.on(API.ADVANCE, woot);
     API.on(API.USER_JOIN, UserJoin);
+    $('#playback').hide();
     API.setVolume(15);
 
     function woot() {
