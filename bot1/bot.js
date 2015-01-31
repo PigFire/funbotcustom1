@@ -234,7 +234,7 @@ if (window.location.hostname === "plug.dj") {
         var fromID = data.uid,
 	        msg = data.message.toLowerCase(),
 	        chatID = data.cid,
-	        responses = ['@{beggar}, Decir groserias no esta permitido aqui, quedas baneado 1hr!',],
+	        responses = ['@{beggar}, Decir groserias no esta permitido aqui, si reiteras quedaras baneado 1hr!',],
 	        randomInt = Math.floor(Math.random() * responses.length);
         if (msg.match(new RegExp(Funbot.filters.beggerWords.join('|'), 'gi')) && Funbot.settings.beggerFilter)
             return API.moderateDeleteChat(chatID),
