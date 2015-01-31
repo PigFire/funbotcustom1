@@ -69,7 +69,8 @@ var blockedSongs = [
 "ratix",
 "willyrex",
 "vegetta",
-"LA CANCIÓN DE WILLYREX (The Güilyreh Song)"
+"LA CANCIÓN DE WILLYREX (The Güilyreh Song)",
+"rap del dinero"
 
 
 ];
@@ -77,7 +78,8 @@ var blockedSongs = [
 // Keywords of blocked artist.
 var blockedArtists = [
 "Justin Bieber",
-"Eltrollino"
+"Eltrollino", 
+"Psy"
 ];
 
 // Filter Keywords
@@ -97,7 +99,6 @@ if (window.location.hostname === "plug.dj") {
     API.on(API.ADVANCE, listener);
     API.on(API.ADVANCE, woot);
     API.on(API.USER_JOIN, UserJoin);
-    $('#playback').hide();
     API.setVolume(15);
 
     function woot() {
@@ -234,7 +235,7 @@ if (window.location.hostname === "plug.dj") {
         var fromID = data.uid,
 	        msg = data.message.toLowerCase(),
 	        chatID = data.cid,
-	        responses = ['@{beggar}, Decir groserias no esta permitido aqui, si reiteras quedaras baneado 1hr!',],
+	        responses = ['@{beggar}, Decir groserias no esta permitido aqui, quedas baneado 1hr!',],
 	        randomInt = Math.floor(Math.random() * responses.length);
         if (msg.match(new RegExp(Funbot.filters.beggerWords.join('|'), 'gi')) && Funbot.settings.beggerFilter)
             return API.moderateDeleteChat(chatID),
